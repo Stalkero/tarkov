@@ -15,7 +15,7 @@ const nodeVersion = "node16";
 const stdio = "inherit";
 const buildDir = "build/";
 const dataDir = path.join(buildDir, "Aki_Data", "Server");
-const serverExeName = "Aki.Server.exe";
+const serverExeName = "Aki.Server.Linux";
 const serverExe = path.join(buildDir, serverExeName);
 const pkgConfig = "pkgconfig.json";
 const entries = {
@@ -72,8 +72,8 @@ const fetchAndPatchPackageImage = async () =>
         console.error(e);
     }
 };
-const packagingRelease = async () => pkg.exec([entries.release, "--compression", "GZip", "--target", `${nodeVersion}-${process.platform}`, "--output", serverExe, "--config", pkgConfig]);
-const packagingDebug = async () => pkg.exec([entries.debug, "--compression", "GZip", "--target", `${nodeVersion}-${process.platform}`, "--output", serverExe, "--config", pkgConfig]);
+const packagingRelease = async () => pkg.exec([entries.release, "--compression", "GZip", "--target", "linux", "--output", serverExe, "--config", pkgConfig]);
+const packagingDebug = async () => pkg.exec([entries.debug, "--compression", "GZip", "--target", "linux", "--output", serverExe, "--config", pkgConfig]);
 const packagingBleeding = async () => pkg.exec([entries.bleeding, "--compression", "GZip", "--target", `${nodeVersion}-${process.platform}`, "--output", serverExe, "--config", pkgConfig]);
 
 
@@ -189,7 +189,7 @@ gulp.task("gen:bleeding", generate(packagingBleeding));
 // Run server
 const runSrv = async (cb) =>
 {
-    await exec("Aki.Server.exe", { stdio, cwd: buildDir });
+    await exec("Aki.Server.Linux", { stdio, cwd: buildDir });
     cb();
 };
 gulp.task("run:server", runSrv);
